@@ -78,3 +78,26 @@ def findEmptySpaces(board):
                 emptySpaces.append((col, row))
     
     return emptySpaces
+
+def playerVersusComputer():
+    board = 0
+
+    win = N
+    while(win == N):
+        printBoard(board)
+        print("Column:")
+        row = input()
+        print("Row:")
+        col = input()
+
+        if len(col) == 0 or len(row) == 0:
+            break
+
+        board, valid = move(board, int(col), int(row), "X")
+        if not valid:
+            print("That space is taken")
+            continue
+        
+        win = checkForWin(board)
+
+    print(win + " wins!")

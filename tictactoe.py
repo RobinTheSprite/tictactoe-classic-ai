@@ -64,3 +64,17 @@ def checkForWin(board):
             return result
 
     return N
+
+def findEmptySpaces(board):
+    emptySpaces = []
+    maxShift = 30
+    mask = 0b11
+
+    for col in range(4):
+        for row in range(4):
+            shift = maxShift - 2*col - 8*row
+
+            if (board & (mask << shift)) == EMPTY_BIN:
+                emptySpaces.append((col, row))
+    
+    return emptySpaces

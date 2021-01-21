@@ -6,11 +6,11 @@ def printBoard(board):
     for shift in range(30, -2, -2):
         space = ((mask << shift) & board) >> shift
 
-        if space == 0:
+        if space == EMPTY_BIN:
             row += " |"
-        elif space == 1:
+        elif space == X_BIN:
             row += X + "|"
-        elif space == 2:
+        elif space == O_BIN:
             row += O + "|"
 
         if shift % 8 == 0:
@@ -28,9 +28,9 @@ def move(board, col, row, symbol):
 
     binarySymbol = 0
     if symbol == X:
-        binarySymbol = 1
+        binarySymbol = X_BIN
     elif symbol == O:
-        binarySymbol = 2
+        binarySymbol = O_BIN
 
     board = board | (binarySymbol << shift)
 
@@ -48,9 +48,9 @@ def isWin(board, winState):
         total += space
         board = board >> 2
 
-    if accumulator == 1 and total == 3:
+    if accumulator == X_BIN and total == X_WIN:
         return X
-    elif accumulator == 2 and total == 6:
+    elif accumulator == O_BIN and total == O_WIN:
         return O
     else:
         return N

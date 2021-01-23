@@ -93,8 +93,10 @@ def randomMove(board):
     return board
 
 def playerVersusComputer():
-    board = 0
+    print("Tic Tac Toe")
+    print("Players: 1")
 
+    board = 0
     win = N
     while(win == N):
         valid = False

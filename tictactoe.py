@@ -100,4 +100,5 @@ def playerVersusComputer():
         
         win = checkForWin(board)
 
+    printBoard(board)
     print(win + " wins!")

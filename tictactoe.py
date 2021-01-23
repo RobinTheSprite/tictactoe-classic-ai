@@ -86,9 +86,9 @@ def playerVersusComputer():
     while(win == N):
         printBoard(board)
         print("Column:")
-        row = input()
-        print("Row:")
         col = input()
+        print("Row:")
+        row = input()
 
         if len(col) == 0 or len(row) == 0:
             break

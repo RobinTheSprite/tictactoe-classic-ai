@@ -3,7 +3,9 @@ from constants import *
 def printBoard(board):
     mask = 0b11
     row = "|"
-    for shift in range(30, -2, -2):
+    maxShift = BOARD_SIZE**2 * 2 - 2
+
+    for shift in range(maxShift, -2, -2):
         space = ((mask << shift) & board) >> shift
 
         if space == EMPTY_BIN:
@@ -13,15 +15,15 @@ def printBoard(board):
         elif space == O_BIN:
             row += O + "|"
 
-        if shift % 8 == 0:
+        if shift % (BOARD_SIZE*2) == 0:
             print(row)
             row = "|"
 
 def move(board, col, row, symbol):
-    maxShift = 30
+    maxShift = BOARD_SIZE**2 * 2 - 2
     mask = 0b11
 
-    shift = maxShift - 2*col - 8*row
+    shift = maxShift - 2*col - BOARD_SIZE*2*row
 
     if (board & (mask << shift)) != 0:
         return board, False
@@ -48,9 +50,9 @@ def isWin(board, winState):
         total += space
         board = board >> 2
 
-    if accumulator == X_BIN and total == X_WIN:
+    if accumulator == X_BIN and total == X_WIN_TOTAL:
         return X
-    elif accumulator == O_BIN and total == O_WIN:
+    elif accumulator == O_BIN and total == O_WIN_TOTAL:
         return O
     else:
         return N
@@ -67,12 +69,12 @@ def checkForWin(board):
 
 def findEmptySpaces(board):
     emptySpaces = []
-    maxShift = 30
+    maxShift = BOARD_SIZE**2 * 2 - 2
     mask = 0b11
 
-    for col in range(4):
-        for row in range(4):
-            shift = maxShift - 2*col - 8*row
+    for col in range(5):
+        for row in range(5):
+            shift = maxShift - 2*col - BOARD_SIZE*2*row
 
             if (board & (mask << shift)) == EMPTY_BIN:
                 emptySpaces.append((col, row))
@@ -102,3 +104,5 @@ def playerVersusComputer():
 
     printBoard(board)
     print(win + " wins!")
+
+playerVersusComputer()

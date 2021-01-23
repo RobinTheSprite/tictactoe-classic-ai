@@ -128,4 +128,26 @@ def playerVersusComputer():
     print(win + " wins!")
     print("**************")
 
-playerVersusComputer()
+
+def computerVersusComputer():
+    print("Tic Tac Toe")
+    print("Players: 0")
+
+    board = 0
+    win = N
+    while(win == N):
+        board = randomMove(board, X)
+
+        print()
+        printBoard(board)
+        print()
+
+        board = randomMove(board, O)
+        printBoard(board)
+
+        win = checkForWin(board)
+
+    print()
+    print("**************")
+    print(win + " wins!")
+    print("**************")

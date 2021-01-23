@@ -82,13 +82,13 @@ def findEmptySpaces(board):
 
     return emptySpaces
 
-def randomMove(board):
+def randomMove(board, symbol):
     valid = False
     while not valid:
         spaces = findEmptySpaces(board)
         space = sample(spaces, 1)[0]
 
-        board, valid = move(board, space[0], space[1], O)
+        board, valid = move(board, space[0], space[1], symbol)
 
     return board
 
@@ -116,7 +116,7 @@ def playerVersusComputer():
             if not valid:
                 print("That space is taken")
 
-            board = randomMove(board)
+        board = randomMove(board, O)
 
         win = checkForWin(board)
 

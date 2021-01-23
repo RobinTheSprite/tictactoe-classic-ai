@@ -1,4 +1,5 @@
 from constants import *
+from random import sample
 
 def printBoard(board):
     mask = 0b11
@@ -78,7 +79,7 @@ def findEmptySpaces(board):
 
             if (board & (mask << shift)) == EMPTY_BIN:
                 emptySpaces.append((col, row))
-    
+
     return emptySpaces
 
 def playerVersusComputer():
@@ -86,23 +87,41 @@ def playerVersusComputer():
 
     win = N
     while(win == N):
-        printBoard(board)
-        print("Column:")
-        col = input()
-        print("Row:")
-        row = input()
+        valid = False
+        while not valid:
+            print()
+            printBoard(board)
+            print()
+            print("Column:")
+            col = input()
+            print("Row:")
+            row = input()
 
-        if len(col) == 0 or len(row) == 0:
-            break
+            if len(col) == 0 or len(row) == 0:
+                break
 
-        board, valid = move(board, int(col), int(row), "X")
-        if not valid:
-            print("That space is taken")
-            continue
-        
+            board, valid = move(board, int(col) - 1, int(row) - 1, X)
+            if not valid:
+                print("That space is taken")
+
+        valid = False
+        while not valid:
+            print()
+            printBoard(board)
+
+            spaces = findEmptySpaces(board)
+            space = sample(spaces, 1)[0]
+
+            board, valid = move(board, space[0], space[1], O)
+
         win = checkForWin(board)
 
+    print()
     printBoard(board)
+    print()
+
+    print("**************")
     print(win + " wins!")
+    print("**************")
 
 playerVersusComputer()

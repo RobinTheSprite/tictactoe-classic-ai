@@ -117,12 +117,30 @@ def evaluate(board):
 
     return total
 
-    if maxO > maxX:
-        return -maxO
-    elif maxO < maxX:
-        return maxX
-    else:
-        return 0
+def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
+    if currentDepth == maxDepth:
+        return evaluate(board)
+
+    optimalScore = 0
+    optimalMove = ()
+    for space in emptySpaces:
+        move = move(board, space[0], space[1])
+
+        result = minimax(
+            move,
+            currentDepth + 1,
+            maxDepth,
+            findEmptySpaces(move),
+            False
+        )
+
+        if isXsTurn and optimalScore < result:
+            optimalScore = result
+            optimalMove = move
+        elif not isXsTurn and optimalScore > result:
+            optimalScore = result
+            optimalMove = move
+
 
 
 def playerVersusComputer():

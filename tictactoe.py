@@ -92,6 +92,38 @@ def randomMove(board, symbol):
 
     return board
 
+
+def evaluate(board):
+    mask = 0b11
+    maxX = 0
+    maxO = 0
+
+    for winState in WIN_STATES:
+        maskedBoard = board & winState
+
+        numberOfXs = 0
+        numberOfOs = 0
+        while maskedBoard != 0:
+            space = (maskedBoard & mask)
+            if space == X_BIN:
+                numberOfXs += 1
+            elif space == O_BIN:
+                numberOfOs += 1
+            maskedBoard = maskedBoard >> 2
+
+        if numberOfXs == 0 and numberOfOs > 0:
+            maxO = max(maxO, numberOfOs)
+        elif numberOfOs == 0 and numberOfXs > 0:
+            maxX = max(maxX, numberOfXs)
+
+    if maxO > maxX:
+        return -maxO
+    elif maxO < maxX:
+        return maxX
+    else:
+        return 0
+
+
 def playerVersusComputer():
     print("Tic Tac Toe")
     print("Players: 1")

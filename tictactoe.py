@@ -167,19 +167,22 @@ def computerVersusComputer():
 
     board = 0
     win = N
+    currentTurn = X
+    nextTurn = O
     while(win == N):
-        board = randomMove(board, X)
+        board = randomMove(board, currentTurn)
 
         print()
         printBoard(board)
+        print("Score: " + str(evaluate(board)))
         print()
-
-        board = randomMove(board, O)
-        printBoard(board)
 
         win = checkForWin(board)
+        currentTurn, nextTurn = nextTurn, currentTurn
 
     print()
     print("**************")
     print(win + " wins!")
     print("**************")
+
+computerVersusComputer()

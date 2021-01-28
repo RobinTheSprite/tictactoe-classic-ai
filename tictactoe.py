@@ -143,7 +143,7 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
 
 
 
-def playerVersusComputer():
+def playerVersusRandom():
     print("Tic Tac Toe")
     print("Players: 1")
 
@@ -180,7 +180,7 @@ def playerVersusComputer():
     print("**************")
 
 
-def computerVersusComputer():
+def randomVersusRandom():
     print("Tic Tac Toe")
     print("Players: 0")
 
@@ -204,4 +204,4 @@ def computerVersusComputer():
     print(win + " wins!")
     print("**************")
 
-computerVersusComputer()
+randomVersusRandom()

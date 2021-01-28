@@ -95,8 +95,7 @@ def randomMove(board, symbol):
 
 def evaluate(board):
     mask = 0b11
-    maxX = 0
-    maxO = 0
+    total = 0
 
     for winState in WIN_STATES:
         maskedBoard = board & winState
@@ -112,9 +111,11 @@ def evaluate(board):
             maskedBoard = maskedBoard >> 2
 
         if numberOfXs == 0 and numberOfOs > 0:
-            maxO = max(maxO, numberOfOs)
+            total -= 1
         elif numberOfOs == 0 and numberOfXs > 0:
-            maxX = max(maxX, numberOfXs)
+            total += 1
+
+    return total
 
     if maxO > maxX:
         return -maxO

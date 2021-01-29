@@ -64,10 +64,12 @@ def findEmptySpaces(board):
 
     return emptySpaces
 
+
 def randomMove(board, symbol):
     valid = False
     while not valid:
         spaces = findEmptySpaces(board)
+
         space = sample(spaces, 1)[0]
 
         board, valid = move(board, space[0], space[1], symbol)
@@ -93,97 +95,58 @@ def evaluate(board):
             maskedBoard = maskedBoard >> 2
 
         if numberOfXs == 0 and numberOfOs > 0:
+            if numberOfOs == 4:
+                return O_WIN
+
             total -= 1
         elif numberOfOs == 0 and numberOfXs > 0:
+            if numberOfXs == 4:
+                return X_WIN
             total += 1
 
     return total
 
 def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     if currentDepth == maxDepth:
+        printBoard(board)
+        print()
         return evaluate(board), board
 
     optimalScore = 0
     optimalMove = ()
-    for space in emptySpaces:
-        move = move(board, space[0], space[1])
+    if isXsTurn:
+        for space in emptySpaces:
+            nextState, valid = move(board, space[0], space[1], X)
 
-        result = minimax(
-            move,
-            currentDepth + 1,
-            maxDepth,
-            findEmptySpaces(move),
-            False
-        )
+            nextScore, nextMove = minimax(
+                nextState,
+                currentDepth + 1,
+                maxDepth,
+                findEmptySpaces(nextState),
+                False
+            )
 
-        if isXsTurn and optimalScore < result:
-            optimalScore = result
-            optimalMove = move
-        elif not isXsTurn and optimalScore > result:
-            optimalScore = result
-            optimalMove = move
+            if optimalScore < nextScore:
+                optimalScore = nextScore
+                optimalMove = nextState
+                if optimalScore == X_WIN:
+                    break
+    else:
+        for space in emptySpaces:
+            nextState, valid = move(board, space[0], space[1], O)
 
+            nextScore, nextMove = minimax(
+                nextState,
+                currentDepth + 1,
+                maxDepth,
+                findEmptySpaces(nextState),
+                True
+            )
 
+            if optimalScore > nextScore:
+                optimalScore = nextScore
+                optimalMove = nextState
+                if optimalScore == O_WIN:
+                    break
 
-def playerVersusRandom():
-    print("Tic Tac Toe")
-    print("Players: 1")
-
-    board = 0
-    win = N
-    while(win == N):
-        valid = False
-        while not valid:
-            print()
-            printBoard(board)
-            print()
-            print("Column:")
-            col = input()
-            print("Row:")
-            row = input()
-
-            if len(col) == 0 or len(row) == 0:
-                break
-
-            board, valid = move(board, int(col) - 1, int(row) - 1, X)
-            if not valid:
-                print("That space is taken")
-
-        board = randomMove(board, O)
-
-        win = checkForWin(board)
-
-    print()
-    printBoard(board)
-    print()
-
-    print("**************")
-    print(win + " wins!")
-    print("**************")
-
-
-def randomVersusRandom():
-    print("Tic Tac Toe")
-    print("Players: 0")
-
-    board = 0
-    win = N
-    currentTurn = X
-    nextTurn = O
-    while(win == N):
-        board = randomMove(board, currentTurn)
-
-        print()
-        printBoard(board)
-        print("Score: " + str(evaluate(board)))
-        print()
-
-        win = checkForWin(board)
-        currentTurn, nextTurn = nextTurn, currentTurn
-
-    print()
-    print("**************")
-    print(win + " wins!")
-    print("**************")
-
-randomVersusRandom()
+    return optimalScore, optimalMove

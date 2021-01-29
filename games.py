@@ -1,4 +1,5 @@
 import tictactoe
+import constants
 
 def playerVersusRandom():
     print("Tic Tac Toe")
@@ -98,3 +99,5 @@ def playerVersusMinimax():
     print("**************")
     print(win + " wins!")
     print("**************")
+
+playerVersusMinimax()

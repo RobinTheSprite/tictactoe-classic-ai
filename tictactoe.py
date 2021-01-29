@@ -46,8 +46,10 @@ def checkForWin(board):
         return X
     elif score == O_WIN:
         return O
-    else:
+    elif score == N_WIN:
         return N
+    else:
+        return U
 
 
 def findEmptySpaces(board):
@@ -80,6 +82,7 @@ def randomMove(board, symbol):
 def evaluate(board):
     mask = 0b11
     total = 0
+    winFound = False
 
     for winState in WIN_STATES:
         maskedBoard = board & winState
@@ -98,13 +101,20 @@ def evaluate(board):
             if numberOfOs == 4:
                 return O_WIN
 
+            winFound = True
             total -= 1
         elif numberOfOs == 0 and numberOfXs > 0:
             if numberOfXs == 4:
                 return X_WIN
+
+            winFound = True
             total += 1
 
+    if winFound:
     return total
+    else:
+        return N_WIN
+
 
 def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     if currentDepth == maxDepth:

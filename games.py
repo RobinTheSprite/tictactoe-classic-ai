@@ -6,8 +6,8 @@ def playerVersusRandom():
     print("Players: 1")
 
     board = 0
-    win = N
-    while(win == N):
+    win = U
+    while(win == U):
         valid = False
         while not valid:
             print()
@@ -43,10 +43,10 @@ def randomVersusRandom():
     print("Players: 0")
 
     board = 0
-    win = N
+    win = U
     currentTurn = X
     nextTurn = O
-    while(win == N):
+    while(win == U):
         board = randomMove(board, currentTurn)
 
         print()
@@ -68,8 +68,8 @@ def playerVersusMinimax():
     print("Players: 1")
 
     board = 0
-    win = N
-    while(win == N):
+    win = U
+    while(win == U):
         valid = False
         while not valid:
             print()

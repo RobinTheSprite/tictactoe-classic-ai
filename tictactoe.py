@@ -1,4 +1,4 @@
-import constants
+from constants import *
 from random import sample
 
 def printBoard(board):

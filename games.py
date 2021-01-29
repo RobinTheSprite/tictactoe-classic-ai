@@ -1,5 +1,5 @@
-import tictactoe
-import constants
+from tictactoe import *
+from constants import *
 
 def playerVersusRandom():
     print("Tic Tac Toe")

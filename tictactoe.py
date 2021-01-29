@@ -118,9 +118,7 @@ def evaluate(board):
 
 def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     if currentDepth == maxDepth:
-        printBoard(board)
-        print()
-        return evaluate(board), board
+        return evaluate(board), ()
 
     optimalScore = 0
     optimalMove = ()

@@ -101,4 +101,29 @@ def playerVersusMinimax():
     print(win + " wins!")
     print("**************")
 
-playerVersusMinimax()
+
+def minimaxVersusMinimax():
+    print("Tic Tac Toe")
+    print("Players: 0")
+
+    board = 0
+    win = U
+    currentTurn = (X, True)
+    nextTurn = (O, False)
+    while(win == U):
+        bestScore, bestMove = minimax(board, 0, 3, findEmptySpaces(board), currentTurn[1])
+        board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
+
+        print()
+        printBoard(board)
+        print()
+
+        win = checkForWin(board)
+        currentTurn, nextTurn = nextTurn, currentTurn
+
+    print()
+    print("**************")
+    print(win + " wins!")
+    print("**************")
+
+

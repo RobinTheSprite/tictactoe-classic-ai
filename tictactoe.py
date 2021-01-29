@@ -39,34 +39,16 @@ def move(board, col, row, symbol):
 
     return board, True
 
-def isWin(board, winState):
-    mask = 0b11
-    accumulator = 0
-    board = board & winState
-    total = 0
 
-    while board != 0:
-        space = (board & mask)
-        accumulator = accumulator | space
-        total += space
-        board = board >> 2
-
-    if accumulator == X_BIN and total == X_WIN_TOTAL:
+def checkForWin(board):
+    score = evaluate(board)
+    if score == X_WIN:
         return X
-    elif accumulator == O_BIN and total == O_WIN_TOTAL:
+    elif score == O_WIN:
         return O
     else:
         return N
 
-
-def checkForWin(board):
-    result = str()
-    for winState in WIN_STATES:
-        result = isWin(board, winState)
-        if result != N:
-            return result
-
-    return N
 
 def findEmptySpaces(board):
     emptySpaces = []
@@ -119,7 +101,7 @@ def evaluate(board):
 
 def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     if currentDepth == maxDepth:
-        return evaluate(board)
+        return evaluate(board), board
 
     optimalScore = 0
     optimalMove = ()

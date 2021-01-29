@@ -87,8 +87,9 @@ def playerVersusMinimax():
             if not valid:
                 print("That space is taken")
 
-        bestScore, bestMove = minimax(board, 0, 8, findEmptySpaces(board), False)
-        board = move(bestMove[0], bestMove[1], O)
+        bestScore, bestMove = minimax(board, 0, 2, findEmptySpaces(board), False)
+
+        board, valid = move(board, bestMove[0], bestMove[1], O)
 
         win = checkForWin(board)
 

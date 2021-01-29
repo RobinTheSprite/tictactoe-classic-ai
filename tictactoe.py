@@ -111,7 +111,7 @@ def evaluate(board):
             total += 1
 
     if winFound:
-    return total
+        return total
     else:
         return N_WIN
 
@@ -120,9 +120,9 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     if currentDepth == maxDepth:
         return evaluate(board), ()
 
-    optimalScore = 0
     optimalMove = ()
     if isXsTurn:
+        optimalScore = O_WIN
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], X)
 
@@ -134,12 +134,13 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
                 False
             )
 
-            if optimalScore < nextScore:
+            if optimalScore <= nextScore:
                 optimalScore = nextScore
-                optimalMove = nextState
+                optimalMove = space
                 if optimalScore == X_WIN:
                     break
     else:
+        optimalScore = X_WIN
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], O)
 
@@ -151,9 +152,9 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
                 True
             )
 
-            if optimalScore > nextScore:
+            if optimalScore >= nextScore:
                 optimalScore = nextScore
-                optimalMove = nextState
+                optimalMove = space
                 if optimalScore == O_WIN:
                     break
 

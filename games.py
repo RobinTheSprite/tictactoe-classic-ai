@@ -111,6 +111,7 @@ def playerVersusMinimax():
 
 def minimaxVersusMinimax():
     print("Tic Tac Toe")
+    print("Minimax")
     print("Players: 0")
 
     board = 0
@@ -118,7 +119,7 @@ def minimaxVersusMinimax():
     currentTurn = (X, True)
     nextTurn = (O, False)
     while(win == U):
-        bestScore, bestMove, searches = minimax(board, 0, 3, findEmptySpaces(board), currentTurn[1])
+        bestScore, bestMove, searches = minimax(board, 0, 5, findEmptySpaces(board), currentTurn[1])
         board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
 
         print()
@@ -134,5 +135,31 @@ def minimaxVersusMinimax():
     print(win + " wins!")
     print("**************")
 
+
+def alphaBetaVersusAlphaBeta():
+    print("Tic Tac Toe")
+    print("Alpha-Beta Search")
+    print("Players: 0")
+
+    board = 0
+    win = U
+    currentTurn = (X, True)
+    nextTurn = (O, False)
+    while(win == U):
+        bestScore, bestMove, searches = alphaBeta(board, 0, 5, findEmptySpaces(board), currentTurn[1], O_WIN, X_WIN)
+        board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
+
+        print()
+        printBoard(board)
+        print("Boards Searched: {}".format(searches))
+        print()
+
+        win = checkForWin(board)
+        currentTurn, nextTurn = nextTurn, currentTurn
+
+    print()
+    print("**************")
+    print(win + " wins!")
+    print("**************")
 
 playbackGame("games/game-1612053474.7294028.sav")

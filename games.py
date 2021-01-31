@@ -39,11 +39,12 @@ def playerVersusRandom():
     print("**************")
 
 
-def randomVersusRandom():
+def randomVersusRandom(save):
     print("Tic Tac Toe")
     print("Players: 0")
 
     board = 0
+    boards = []
     win = U
     currentTurn = X
     nextTurn = O
@@ -55,8 +56,13 @@ def randomVersusRandom():
         print("Score: " + str(evaluate(board)))
         print()
 
+        boards.append(str(board) + "\n")
+
         win = checkForWin(board)
         currentTurn, nextTurn = nextTurn, currentTurn
+
+    if save:
+        writeGame(boards)
 
     print()
     print("**************")
@@ -128,3 +134,4 @@ def minimaxVersusMinimax():
     print("**************")
 
 
+playbackGame("games/game-1612053474.7294028.sav")

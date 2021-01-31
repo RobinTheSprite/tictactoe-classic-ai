@@ -1,5 +1,7 @@
 from constants import *
 from random import sample
+from time import time, sleep
+from keyboard import is_pressed
 
 def printBoard(board):
     mask = 0b11
@@ -116,3 +118,41 @@ def evaluate(board):
         return N_WIN
 
 
+def writeGame(boards):
+    timestamp = time()
+    f = open("games/game-{}.sav".format(timestamp), "w")
+    f.writelines(boards)
+    f.close()
+
+def playbackGame(filename):
+    print(filename)
+
+    current = 0
+    f = open(filename, "r")
+    lines = f.readlines()
+    while current < len(lines):
+        print()
+        printBoard(int(lines[current]))
+        print("Press ENTER to quit")
+        sleep(0.1)
+        while True:
+            if is_pressed("left") and current > 0:
+                current -= 1
+                break
+            elif is_pressed("right") and current < len(lines) - 1:
+                current += 1
+                break
+            elif is_pressed("enter"):
+                current = len(lines)
+                break
+
+
+
+
+    #Get the last line as int to check for a win
+    win = checkForWin(int(lines[len(lines) - 1]))
+
+    print()
+    print("**************")
+    print(win + " wins!")
+    print("**************")

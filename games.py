@@ -1,5 +1,6 @@
 from tictactoe import *
 from constants import *
+from utilities import *
 
 def playerVersusRandom():
     print("Tic Tac Toe")

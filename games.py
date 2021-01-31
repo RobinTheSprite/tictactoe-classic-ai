@@ -94,7 +94,7 @@ def playerVersusMinimax():
             if not valid:
                 print("That space is taken")
 
-        bestScore, bestMove = minimax(board, 0, 2, findEmptySpaces(board), False)
+        bestScore, bestMove, searches = minimax(board, 0, 2, findEmptySpaces(board), False)
 
         board, valid = move(board, bestMove[0], bestMove[1], O)
 
@@ -118,11 +118,12 @@ def minimaxVersusMinimax():
     currentTurn = (X, True)
     nextTurn = (O, False)
     while(win == U):
-        bestScore, bestMove = minimax(board, 0, 3, findEmptySpaces(board), currentTurn[1])
+        bestScore, bestMove, searches = minimax(board, 0, 3, findEmptySpaces(board), currentTurn[1])
         board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
 
         print()
         printBoard(board)
+        print("Boards Searched: {}".format(searches))
         print()
 
         win = checkForWin(board)

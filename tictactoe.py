@@ -3,16 +3,18 @@ from utilities import *
 
 
 def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
-    if currentDepth == maxDepth:
-        return evaluate(board), ()
+    evaluation = evaluate(board)
+    if currentDepth == maxDepth or abs(evaluation) == abs(X_WIN):
+        return evaluation, (), 0
 
     optimalMove = ()
+    searches = 0
     if isXsTurn:
         optimalScore = O_WIN
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], X)
 
-            nextScore, nextMove = minimax(
+            nextScore, nextMove, subtreeSearches = minimax(
                 nextState,
                 currentDepth + 1,
                 maxDepth,
@@ -20,17 +22,17 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
                 False
             )
 
+            searches += 1 + subtreeSearches
+
             if optimalScore <= nextScore:
                 optimalScore = nextScore
                 optimalMove = space
-                if optimalScore == X_WIN:
-                    break
     else:
         optimalScore = X_WIN
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], O)
 
-            nextScore, nextMove = minimax(
+            nextScore, nextMove, subtreeSearches = minimax(
                 nextState,
                 currentDepth + 1,
                 maxDepth,
@@ -38,10 +40,10 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
                 True
             )
 
+            searches += 1 + subtreeSearches
+
             if optimalScore >= nextScore:
                 optimalScore = nextScore
                 optimalMove = space
-                if optimalScore == O_WIN:
-                    break
 
-    return optimalScore, optimalMove
+    return optimalScore, optimalMove, searches

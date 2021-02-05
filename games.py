@@ -1,4 +1,4 @@
-from tictactoe import *
+from algorithms import *
 from constants import *
 from utilities import *
 

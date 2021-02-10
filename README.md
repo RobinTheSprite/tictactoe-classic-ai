@@ -1,7 +1,7 @@
 # tictactoe-classic-ai
 ### A demonstration of classic search algorithms in a game of 5x5 Tic-Tac-Toe
 
-
+![Animation of alpha-beta search](tictactoe.GIF)
 
 ## Gamemodes
 

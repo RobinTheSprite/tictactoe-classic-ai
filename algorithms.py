@@ -46,6 +46,13 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
                 optimalScore = nextScore
                 optimalMove = space
 
+    """ Debug string:
+        print(
+            "Depth: {}, Empty Spaces: {}, X's turn: {}, Score: {}, Move: {}, Searches: {}"
+            .format(currentDepth, len(emptySpaces), isXsTurn, optimalScore, optimalMove, searches)
+        )
+    """
+
     return optimalScore, optimalMove, searches
 
 

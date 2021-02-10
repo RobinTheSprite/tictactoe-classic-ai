@@ -2,6 +2,9 @@ from algorithms import *
 from constants import *
 from utilities import *
 
+# To choose a game mode, pick a function and call it.
+# Pass True to save the game, false otherwise.
+
 def playerVersusRandom(save):
     print("Tic Tac Toe")
     print("Players: 1")
@@ -191,3 +194,4 @@ def alphaBetaVersusAlphaBeta(save):
     print("**************")
     print(win + " wins!")
     print("**************")
+

@@ -171,7 +171,7 @@ def alphaBetaVersusAlphaBeta(save):
     while(win == U):
         boards.append(str(board) + "\n")
 
-        bestScore, bestMove, searches = alphaBeta(board, 0, 5, findEmptySpaces(board), currentTurn[1], O_WIN, X_WIN)
+        bestScore, bestMove, searches = alphaBeta(board, 0, 5, findEmptySpaces(board), currentTurn[1], -INF, INF)
         board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
 
         print()

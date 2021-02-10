@@ -43,3 +43,5 @@ WIN_STATES = (
 X_WIN = len(WIN_STATES)
 O_WIN = -len(WIN_STATES)
 N_WIN = 404 #Winner not found lol
+
+INF = X_WIN + 1

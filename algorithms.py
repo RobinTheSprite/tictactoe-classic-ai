@@ -10,7 +10,7 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     optimalMove = ()
     searches = 0
     if isXsTurn:
-        optimalScore = O_WIN
+        optimalScore = -INF
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], X)
 
@@ -28,7 +28,7 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
                 optimalScore = nextScore
                 optimalMove = space
     else:
-        optimalScore = X_WIN
+        optimalScore = INF
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], O)
 
@@ -57,7 +57,7 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
     optimalMove = ()
     searches = 0
     if isXsTurn:
-        optimalScore = O_WIN
+        optimalScore = -INF
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], X)
 
@@ -79,7 +79,7 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
             if beta <= alpha:
                 break
     else:
-        optimalScore = X_WIN
+        optimalScore = INF
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], O)
 

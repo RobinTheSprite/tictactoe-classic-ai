@@ -68,12 +68,14 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], X)
 
-            nextScore, nextMove, subtreeSearches = minimax(
+            nextScore, nextMove, subtreeSearches = alphaBeta(
                 nextState,
                 currentDepth + 1,
                 maxDepth,
                 findEmptySpaces(nextState),
-                False
+                False,
+                alpha,
+                beta
             )
 
             searches += 1 + subtreeSearches
@@ -90,12 +92,14 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
         for space in emptySpaces:
             nextState, valid = move(board, space[0], space[1], O)
 
-            nextScore, nextMove, subtreeSearches = minimax(
+            nextScore, nextMove, subtreeSearches = alphaBeta(
                 nextState,
                 currentDepth + 1,
                 maxDepth,
                 findEmptySpaces(nextState),
-                True
+                True,
+                alpha,
+                beta
             )
 
             searches += 1 + subtreeSearches

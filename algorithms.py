@@ -24,7 +24,7 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
 
             searches += 1 + subtreeSearches
 
-            if optimalScore <= nextScore:
+            if optimalScore < nextScore:
                 optimalScore = nextScore
                 optimalMove = space
     else:
@@ -42,7 +42,7 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
 
             searches += 1 + subtreeSearches
 
-            if optimalScore >= nextScore:
+            if optimalScore > nextScore:
                 optimalScore = nextScore
                 optimalMove = space
 
@@ -71,11 +71,11 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
 
             searches += 1 + subtreeSearches
 
-            if optimalScore <= nextScore:
+            if optimalScore < nextScore:
                 optimalScore = nextScore
                 optimalMove = space
-                alpha = max(alpha, optimalScore)
 
+                alpha = max(alpha, optimalScore)
             if beta <= alpha:
                 break
     else:
@@ -93,11 +93,11 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
 
             searches += 1 + subtreeSearches
 
-            if optimalScore >= nextScore:
+            if optimalScore > nextScore:
                 optimalScore = nextScore
                 optimalMove = space
-                beta = min(beta, optimalScore)
 
+                beta = min(beta, optimalScore)
             if beta <= alpha:
                 break
 

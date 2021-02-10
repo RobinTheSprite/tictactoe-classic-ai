@@ -135,11 +135,12 @@ def minimaxVersusMinimax(save):
     win = U
     currentTurn = (X, True)
     nextTurn = (O, False)
+    boards.append(str(board) + "\n")
     while(win == U):
-        boards.append(str(board) + "\n")
-
         bestScore, bestMove, searches = minimax(board, 0, 5, findEmptySpaces(board), currentTurn[1])
         board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
+
+        boards.append(str(board) + "\n")
 
         print()
         printBoard(board)
@@ -168,11 +169,12 @@ def alphaBetaVersusAlphaBeta(save):
     win = U
     currentTurn = (X, True)
     nextTurn = (O, False)
+    boards.append(str(board) + "\n")
     while(win == U):
-        boards.append(str(board) + "\n")
-
         bestScore, bestMove, searches = alphaBeta(board, 0, 5, findEmptySpaces(board), currentTurn[1], -INF, INF)
         board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
+
+        boards.append(str(board) + "\n")
 
         print()
         printBoard(board)

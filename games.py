@@ -8,8 +8,8 @@ def playerVersusRandom(save):
 
     board = 0
     boards = []
-    win = U
-    while(win == U):
+    win = UNFINISHED
+    while(win == UNFINISHED):
         valid = False
         while not valid:
             print()
@@ -53,10 +53,10 @@ def randomVersusRandom(save):
 
     board = 0
     boards = []
-    win = U
+    win = UNFINISHED
     currentTurn = X
     nextTurn = O
-    while(win == U):
+    while(win == UNFINISHED):
         boards.append(str(board) + "\n")
 
         board = randomMove(board, currentTurn)
@@ -84,8 +84,8 @@ def playerVersusMinimax(save):
 
     board = 0
     boards = []
-    win = U
-    while(win == U):
+    win = UNFINISHED
+    while(win == UNFINISHED):
         valid = False
         while not valid:
             print()
@@ -132,11 +132,11 @@ def minimaxVersusMinimax(save):
 
     board = 0
     boards = []
-    win = U
+    win = UNFINISHED
     currentTurn = (X, True)
     nextTurn = (O, False)
     boards.append(str(board) + "\n")
-    while(win == U):
+    while(win == UNFINISHED):
         bestScore, bestMove, searches = minimax(board, 0, 5, findEmptySpaces(board), currentTurn[1])
         board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
 
@@ -166,11 +166,11 @@ def alphaBetaVersusAlphaBeta(save):
 
     board = 0
     boards = []
-    win = U
+    win = UNFINISHED
     currentTurn = (X, True)
     nextTurn = (O, False)
     boards.append(str(board) + "\n")
-    while(win == U):
+    while(win == UNFINISHED):
         bestScore, bestMove, searches = alphaBeta(board, 0, 5, findEmptySpaces(board), currentTurn[1], -INF, INF)
         board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
 

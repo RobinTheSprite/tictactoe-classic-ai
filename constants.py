@@ -1,7 +1,7 @@
 X = "X"
 O = "O"
-N = "Nobody"
-U = "Undecided"
+NOBODY = "Nobody"
+UNFINISHED = "Undecided"
 
 EMPTY_BIN = 0
 X_BIN = 1
@@ -42,6 +42,6 @@ WIN_STATES = (
 
 X_WIN = len(WIN_STATES)
 O_WIN = -len(WIN_STATES)
-N_WIN = 404 #Winner not found lol
+NO_WIN = 404 #Winner not found lol
 
 INF = X_WIN + 1

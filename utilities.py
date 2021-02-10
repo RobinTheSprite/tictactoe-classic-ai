@@ -48,10 +48,10 @@ def checkForWin(board):
         return X
     elif score == O_WIN:
         return O
-    elif score == N_WIN:
-        return N
+    elif score == NO_WIN:
+        return NOBODY # Tied game
     else:
-        return U
+        return UNFINISHED # Game's not over
 
 
 def findEmptySpaces(board):
@@ -59,8 +59,9 @@ def findEmptySpaces(board):
     maxShift = BOARD_SIZE**2 * 2 - 2
     mask = 0b11
 
-    for col in range(5):
-        for row in range(5):
+    # For each space on the board:
+    for col in range(BOARD_SIZE):
+        for row in range(BOARD_SIZE):
             shift = maxShift - 2*col - BOARD_SIZE*2*row
 
             if (board & (mask << shift)) == EMPTY_BIN:
@@ -115,7 +116,7 @@ def evaluate(board):
     if winFound:
         return total
     else:
-        return N_WIN
+        return NO_WIN
 
 
 def writeGame(boards):

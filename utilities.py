@@ -74,9 +74,9 @@ def randomMove(board, symbol):
     while not valid:
         spaces = findEmptySpaces(board)
 
-        space = sample(spaces, 1)[0]
+        randomSpace = sample(spaces, 1)[0]
 
-        board, valid = move(board, space[0], space[1], symbol)
+        board, valid = move(board, randomSpace[0], randomSpace[1], symbol)
 
     return board
 

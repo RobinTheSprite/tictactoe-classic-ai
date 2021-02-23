@@ -26,6 +26,21 @@ def printBoard(board):
             print(row)
             row = "|"
 
+
+def boardDifference(board1, board2):
+    difference = board1 ^ board2
+
+    mask = 0b11
+    maxShift = BOARD_SIZE**2 * 2 - 2
+    for row in range(0, BOARD_SIZE):
+        for col in range(0, BOARD_SIZE):
+            shift = maxShift - 2*col - BOARD_SIZE*2*row
+            space = (mask << shift) & difference
+
+            if space != EMPTY_BIN:
+                return (col, row)
+
+
 def move(board, col, row, symbol):
     maxShift = BOARD_SIZE**2 * 2 - 2
     mask = 0b11

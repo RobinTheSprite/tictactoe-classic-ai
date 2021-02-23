@@ -179,6 +179,6 @@ def monteCarlo(board, timeLimit):
             else:
                 currentNode = currentNode["parent"]
 
-    return root["visitedChildren"][0]
+    return boardDifference(root["board"], root["visitedChildren"][0]["board"])
 
 

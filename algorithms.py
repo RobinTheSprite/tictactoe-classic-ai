@@ -147,8 +147,8 @@ def monteCarlo(board, timeLimit):
                 currentTurn, nextTurn = nextTurn, currentTurn
                 winState = checkForWin(childBoard)
 
-            if child["isXsTurn"] and winState == X
-               or not child["isXsTurn"] and winState == O:
+            if (child["isXsTurn"] and winState == X
+               or not child["isXsTurn"] and winState == O):
                 child["wins"] += 1
                 child["playouts"] += 1
             elif winState == NOBODY:

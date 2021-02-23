@@ -2,6 +2,7 @@ from constants import *
 from random import sample
 from time import time, sleep
 from keyboard import is_pressed
+from math import sqrt, log
 
 def printBoard(board):
     mask = 0b11
@@ -173,3 +174,41 @@ def playbackGame(filename):
     print("**************")
     print(win + " wins!")
     print("**************")
+
+
+def makeEmptyNode():
+    return {
+        "board": 0,
+        "playouts": 0,
+        "wins": 0,
+        "ties": 0,
+        "uct": 0,
+        "isXsTurn": True,
+        "visitedChildren": [],
+        "unvisitedChildren": [],
+        "parent": {}
+    }
+
+
+def getChildren(currentNode):
+    children = []
+    spaces = findEmptySpaces(currentNode["board"])
+    for space in spaces:
+
+        child = makeEmptyNode()
+
+        child["board"] = move(
+            currentNode["board"],
+            space[0],
+            space[1],
+            X if currentNode["isXsTurn"] else O
+        )
+        child["isXsTurn"] = not currentNode["isXsTurn"]
+        child["parent"] = currentNode
+
+        children.append(child)
+
+    return children
+
+def uct(w, n, c, N):
+    return (w/n) + c * sqrt(log(N) / n)

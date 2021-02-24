@@ -17,9 +17,9 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     if isXsTurn:
         optimalScore = -INF
         for space in emptySpaces:
-            nextState, valid = move(board, space[0], space[1], X)
+            nextState, _ = move(board, space[0], space[1], X)
 
-            nextScore, nextMove, subtreeSearches = minimax(
+            nextScore, _, subtreeSearches = minimax(
                 nextState,
                 currentDepth + 1,
                 maxDepth,
@@ -35,9 +35,9 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     else:
         optimalScore = INF
         for space in emptySpaces:
-            nextState, valid = move(board, space[0], space[1], O)
+            nextState, _ = move(board, space[0], space[1], O)
 
-            nextScore, nextMove, subtreeSearches = minimax(
+            nextScore, _, subtreeSearches = minimax(
                 nextState,
                 currentDepth + 1,
                 maxDepth,
@@ -71,9 +71,9 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
     if isXsTurn:
         optimalScore = -INF
         for space in emptySpaces:
-            nextState, valid = move(board, space[0], space[1], X)
+            nextState, _ = move(board, space[0], space[1], X)
 
-            nextScore, nextMove, subtreeSearches = alphaBeta(
+            nextScore, _, subtreeSearches = alphaBeta(
                 nextState,
                 currentDepth + 1,
                 maxDepth,
@@ -95,9 +95,9 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
     else:
         optimalScore = INF
         for space in emptySpaces:
-            nextState, valid = move(board, space[0], space[1], O)
+            nextState, _ = move(board, space[0], space[1], O)
 
-            nextScore, nextMove, subtreeSearches = alphaBeta(
+            nextScore, _, subtreeSearches = alphaBeta(
                 nextState,
                 currentDepth + 1,
                 maxDepth,

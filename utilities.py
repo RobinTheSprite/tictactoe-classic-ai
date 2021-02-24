@@ -128,7 +128,9 @@ def evaluate(board):
 
         # Figure out if X or O could use this win state to win.
         # If so, count it in the grand total
-        if numberOfXs == 0 and numberOfOs > 0:
+        if numberOfXs == 0 and numberOfOs == 0:
+            winFound = True
+        elif numberOfXs == 0 and numberOfOs > 0:
             if numberOfOs == 4:
                 return O_WIN
 

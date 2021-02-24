@@ -50,37 +50,6 @@ def playerVersusRandom(save):
     print("**************")
 
 
-def randomVersusRandom(save):
-    print("Tic Tac Toe")
-    print("Players: 0")
-
-    board = 0
-    boards = []
-    win = UNFINISHED
-    currentTurn = X
-    nextTurn = O
-    while(win == UNFINISHED):
-        boards.append(str(board) + "\n")
-
-        board = randomMove(board, currentTurn)
-
-        print()
-        printBoard(board)
-        print("Score: " + str(evaluate(board)))
-        print()
-
-        win = checkForWin(board)
-        currentTurn, nextTurn = nextTurn, currentTurn
-
-    if save:
-        writeGame(boards)
-
-    print()
-    print("**************")
-    print(win + " wins!")
-    print("**************")
-
-
 def playerVersusMinimax(save):
     print("Tic Tac Toe")
     print("Players: 1")
@@ -106,7 +75,7 @@ def playerVersusMinimax(save):
             if not valid:
                 print("That space is taken")
 
-        bestScore, bestMove, searches = minimax(board, 0, 2, findEmptySpaces(board), False)
+        _, bestMove, _ = minimax(board, 0, 2, findEmptySpaces(board), False)
 
         boards.append(str(board) + "\n")
 
@@ -128,9 +97,34 @@ def playerVersusMinimax(save):
     print("**************")
 
 
-def minimaxVersusMinimax(save):
+def minimaxWrapper(board, currentTurn):
+    _, bestMove, searches = minimax(board, 0, 3, findEmptySpaces(board), currentTurn)
+    return bestMove, "Boards Searched: {}".format(searches)
+
+
+def alphaBetaWrapper(board, currentTurn):
+    _, bestMove, searches = alphaBeta(board, 0, 3, findEmptySpaces(board), currentTurn, -INF, INF)
+    print(bestMove)
+    return bestMove, "Boards Searched: {}".format(searches)
+
+
+selectAlgorithm = {
+    GameType.RANDOM: lambda board, currentTurn: random(board, currentTurn),
+    GameType.MINIMAX: lambda board, currentTurn: minimaxWrapper(board, currentTurn),
+    GameType.ALPHABETA: lambda board, currentTurn: alphaBetaWrapper(board, currentTurn),
+    GameType.MONTECARLO: lambda board, currentTurn: monteCarlo(board, currentTurn, 15)
+}
+
+selectDescription = {
+    GameType.RANDOM: "Random moves",
+    GameType.MINIMAX: "Minimax",
+    GameType.ALPHABETA: "Alpha-Beta Search",
+    GameType.MONTECARLO: "Monte-Carlo Tree Search"
+}
+
+def computerVsComputer(gameType, save):
     print("Tic Tac Toe")
-    print("Minimax")
+    print(selectDescription[gameType])
     print("Players: 0")
 
     board = 0
@@ -140,14 +134,15 @@ def minimaxVersusMinimax(save):
     nextTurn = (O, False)
     boards.append(str(board) + "\n")
     while(win == UNFINISHED):
-        bestScore, bestMove, searches = minimax(board, 0, 5, findEmptySpaces(board), currentTurn[1])
-        board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
+        bestMove, statistic = selectAlgorithm[gameType](board, currentTurn[1])
+        board, _ = move(board, bestMove[0], bestMove[1], currentTurn[0])
 
         boards.append(str(board) + "\n")
 
         print()
         printBoard(board)
-        print("Boards Searched: {}".format(searches))
+        if statistic != str():
+            print(statistic)
         print()
 
         win = checkForWin(board)
@@ -161,37 +156,4 @@ def minimaxVersusMinimax(save):
     print(win + " wins!")
     print("**************")
 
-
-def alphaBetaVersusAlphaBeta(save):
-    print("Tic Tac Toe")
-    print("Alpha-Beta Search")
-    print("Players: 0")
-
-    board = 0
-    boards = []
-    win = UNFINISHED
-    currentTurn = (X, True)
-    nextTurn = (O, False)
-    boards.append(str(board) + "\n")
-    while(win == UNFINISHED):
-        bestScore, bestMove, searches = alphaBeta(board, 0, 5, findEmptySpaces(board), currentTurn[1], -INF, INF)
-        board, valid = move(board, bestMove[0], bestMove[1], currentTurn[0])
-
-        boards.append(str(board) + "\n")
-
-        print()
-        printBoard(board)
-        print("Boards Searched: {}".format(searches))
-        print()
-
-        win = checkForWin(board)
-        currentTurn, nextTurn = nextTurn, currentTurn
-
-    if save:
-        writeGame(boards)
-
-    print()
-    print("**************")
-    print(win + " wins!")
-    print("**************")
-
+computerVsComputer(GameType.MONTECARLO, False)

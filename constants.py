@@ -1,3 +1,5 @@
+from enum import Enum, auto
+
 X = "X"
 O = "O"
 NOBODY = "Nobody"
@@ -45,3 +47,9 @@ O_WIN = -len(WIN_STATES)
 NO_WIN = 404 #Winner not found lol
 
 INF = X_WIN + 1
+
+class GameType(Enum):
+    RANDOM = auto()
+    MINIMAX = auto()
+    ALPHABETA = auto()
+    MONTECARLO = auto()

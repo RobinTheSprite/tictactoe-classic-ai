@@ -3,6 +3,10 @@ from utilities import *
 from operator import itemgetter
 
 
+def random(board, currentTurn):
+    return boardDifference(board, randomMove(board, X if currentTurn else O)), str()
+
+
 def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     evaluation = evaluate(board)
     if currentDepth == maxDepth or abs(evaluation) == abs(X_WIN):
@@ -116,10 +120,10 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
     return optimalScore, optimalMove, searches
 
 # A leaf node is one with an empty list []
-def monteCarlo(board, timeLimit):
+def monteCarlo(board, currentTurn, timeLimit):
     root = makeEmptyNode()
     root["board"] = board
-    root["isXsTurn"] = True
+    root["isXsTurn"] = currentTurn
     root["unvisitedChildren"] = getChildren(root)
 
     totalPlayouts = 0
@@ -179,6 +183,6 @@ def monteCarlo(board, timeLimit):
             else:
                 currentNode = currentNode["parent"]
 
-    return boardDifference(root["board"], root["visitedChildren"][0]["board"])
+    return boardDifference(root["board"], root["visitedChildren"][0]["board"]), str()
 
 

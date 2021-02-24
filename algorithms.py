@@ -139,6 +139,9 @@ def monteCarlo(board, currentTurn, timeLimit):
         if winState == X or winState == O or winState == NOBODY:
             currentNode["playouts"] += 1
             totalPlayouts += 1
+
+            if winState == NOBODY:
+                currentNode["ties"] += 1
         else:
             child = currentNode["unvisitedChildren"][0]
 

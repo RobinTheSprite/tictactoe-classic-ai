@@ -219,7 +219,7 @@ def getChildren(currentNode):
             space[0],
             space[1],
             X if currentNode["isXsTurn"] else O
-        )
+        )[0]
         child["isXsTurn"] = not currentNode["isXsTurn"]
         child["parent"] = currentNode
 

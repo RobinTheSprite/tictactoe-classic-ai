@@ -129,7 +129,7 @@ def monteCarlo(board, currentTurn, timeLimit):
     totalPlayouts = 0
 
     startTime = time()
-    while (time() - startTime) < 15:
+    while (time() - startTime) < timeLimit:
         currentNode = root
 
         while len(currentNode["unvisitedChildren"]) == 0:

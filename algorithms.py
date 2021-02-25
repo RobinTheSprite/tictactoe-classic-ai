@@ -154,6 +154,7 @@ def monteCarlo(board, currentTurn, timeLimit):
             winState = checkForWin(childBoard)
             currentTurn = X if child["isXsTurn"] else O
             nextTurn = X if not child["isXsTurn"] else O
+
             while winState == UNFINISHED:
                 childBoard = randomMove(childBoard, currentTurn)
                 currentTurn, nextTurn = nextTurn, currentTurn
@@ -162,10 +163,10 @@ def monteCarlo(board, currentTurn, timeLimit):
             if (child["isXsTurn"] and winState == X
                or not child["isXsTurn"] and winState == O):
                 child["wins"] += 1
-                child["playouts"] += 1
             elif winState == NOBODY:
                 child["ties"] += 1
 
+            child["playouts"] += 1
             totalPlayouts += 1
             currentNode["unvisitedChildren"].pop(0)
             currentNode["visitedChildren"].append(child)
@@ -181,7 +182,7 @@ def monteCarlo(board, currentTurn, timeLimit):
                 ties += child["ties"]
 
             currentNode["visitedChildren"].sort(reverse=True, key=itemgetter("uct"))
-            currentNode["playouts"] = playoutsForCurrent
+            currentNode["playouts"] = max(playoutsForCurrent, currentNode["playouts"])
             currentNode["ties"] = ties
             currentNode["wins"] = playoutsForCurrent - lossesForCurrent - ties
 

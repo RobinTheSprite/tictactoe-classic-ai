@@ -132,8 +132,13 @@ def monteCarlo(board, currentTurn, timeLimit):
     while (time() - startTime) < timeLimit:
         currentNode = root
 
-        while len(currentNode["unvisitedChildren"]) == 0:
+        while (len(currentNode["unvisitedChildren"]) == 0
+            and len(currentNode["visitedChildren"]) > 0):
             currentNode = currentNode["visitedChildren"][0]
+
+        if (len(currentNode["unvisitedChildren"]) == 0
+            and len(currentNode["visitedChildren"]) == 0):
+            currentNode["unvisitedChildren"] = getChildren(currentNode)
 
         winState = checkForWin(currentNode["board"])
         if winState == X or winState == O or winState == NOBODY:

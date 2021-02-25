@@ -136,7 +136,9 @@ def computerVsComputer(gameTypes, save):
     nextTurn = (O, False, gameTypes[1])
     boards.append(str(board) + "\n")
     while(win == UNFINISHED):
+        startTime = time()
         bestMove, statistic = selectAlgorithm[currentTurn[2]](board, currentTurn[1])
+        duration = time() - startTime
         board, _ = move(board, bestMove[0], bestMove[1], currentTurn[0])
 
         boards.append(str(board) + "\n")
@@ -145,6 +147,7 @@ def computerVsComputer(gameTypes, save):
         printBoard(board)
         if statistic != str():
             print(statistic)
+        print("Time: {} seconds".format(round(duration, 2)))
         print()
 
         win = checkForWin(board)

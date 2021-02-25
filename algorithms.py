@@ -132,6 +132,7 @@ def monteCarlo(board, currentTurn, timeLimit):
 
     totalPlayouts = 0
 
+    boardsSearched = 0
     startTime = time()
     while (time() - startTime) < timeLimit:
         currentNode = root
@@ -160,6 +161,7 @@ def monteCarlo(board, currentTurn, timeLimit):
             nextTurn = X if not child["isXsTurn"] else O
 
             while winState == UNFINISHED:
+                boardsSearched += 1
                 childBoard = randomMove(childBoard, currentTurn)
                 currentTurn, nextTurn = nextTurn, currentTurn
                 winState = checkForWin(childBoard)
@@ -196,6 +198,7 @@ def monteCarlo(board, currentTurn, timeLimit):
             else:
                 currentNode = currentNode["parent"]
 
-    return boardDifference(root["board"], root["visitedChildren"][0]["board"]), str()
+    return  boardDifference(root["board"], root["visitedChildren"][0]["board"]), \
+            "Boards Searched: {}".format(boardsSearched)
 
 

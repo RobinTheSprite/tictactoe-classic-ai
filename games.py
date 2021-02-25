@@ -122,19 +122,22 @@ selectDescription = {
     GameType.MONTECARLO: "Monte-Carlo Tree Search"
 }
 
-def computerVsComputer(gameType, save):
+def computerVsComputer(gameTypes, save):
     print("Tic Tac Toe")
-    print(selectDescription[gameType])
+    print("{} versus {}".format(
+        selectDescription[gameTypes[0]],
+        selectDescription[gameTypes[1]]
+    ))
     print("Players: 0")
 
     board = 0
     boards = []
     win = UNFINISHED
-    currentTurn = (X, True)
-    nextTurn = (O, False)
+    currentTurn = (X, True, gameTypes[0])
+    nextTurn = (O, False, gameTypes[1])
     boards.append(str(board) + "\n")
     while(win == UNFINISHED):
-        bestMove, statistic = selectAlgorithm[gameType](board, currentTurn[1])
+        bestMove, statistic = selectAlgorithm[currentTurn[2]](board, currentTurn[1])
         board, _ = move(board, bestMove[0], bestMove[1], currentTurn[0])
 
         boards.append(str(board) + "\n")
@@ -156,4 +159,4 @@ def computerVsComputer(gameType, save):
     print(win + " wins!")
     print("**************")
 
-computerVsComputer(GameType.MONTECARLO, False)
+computerVsComputer((GameType.MONTECARLO, GameType.MONTECARLO), False)

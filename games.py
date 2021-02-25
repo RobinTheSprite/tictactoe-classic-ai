@@ -150,7 +150,7 @@ def computerVsComputer(gameTypes, save):
         printBoard(board)
         if statistic != str():
             print(statistic)
-        print("Time: {} seconds".format(round(duration, 2)))
+        print("Time: {} seconds".format(round(duration, 4)))
         print()
 
         win = checkForWin(board)

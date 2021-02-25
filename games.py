@@ -104,7 +104,6 @@ def minimaxWrapper(board, currentTurn):
 
 def alphaBetaWrapper(board, currentTurn):
     _, bestMove, searches = alphaBeta(board, 0, 3, findEmptySpaces(board), currentTurn, -INF, INF)
-    print(bestMove)
     return bestMove, "Boards Searched: {}".format(searches)
 
 
@@ -159,4 +158,4 @@ def computerVsComputer(gameTypes, save):
     print(win + " wins!")
     print("**************")
 
-computerVsComputer((GameType.MONTECARLO, GameType.MONTECARLO), False)
+computerVsComputer((GameType.MONTECARLO, GameType.ALPHABETA), False)

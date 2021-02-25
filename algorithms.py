@@ -1,6 +1,10 @@
-from constants import *
-from utilities import *
+from constants import INF, X, O, UNFINISHED, X_WIN, O_WIN, NOBODY
+from utilities import \
+move, randomMove, boardDifference, \
+checkForWin, evaluate, findEmptySpaces, \
+makeEmptyNode, getChildren, uct
 from operator import itemgetter
+from time import time
 
 
 def random(board, currentTurn):

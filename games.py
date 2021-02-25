@@ -1,6 +1,9 @@
-from algorithms import *
-from constants import *
-from utilities import *
+from algorithms import random, minimax, alphaBeta, monteCarlo
+from constants import X, O, UNFINISHED, GameType, INF
+from utilities import \
+printBoard, randomMove, move, \
+checkForWin, writeGame, findEmptySpaces
+from time import time
 
 # To choose a game mode, pick a function and call it.
 # Pass True to save the game, false otherwise.

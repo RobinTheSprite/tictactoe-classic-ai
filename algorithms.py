@@ -2,7 +2,7 @@ from constants import INF, X, O, UNFINISHED, X_WIN, O_WIN, NOBODY
 from utilities import \
 move, randomMove, boardDifference, \
 checkForWin, evaluate, findEmptySpaces, \
-makeEmptyNode, getChildren, uct
+makeEmptyNode, getChildren, uct, playout
 from operator import itemgetter
 from time import time
 
@@ -155,16 +155,8 @@ def monteCarlo(board, currentTurn, timeLimit):
         else:
             child = currentNode["unvisitedChildren"][0]
 
-            childBoard = child["board"]
-            winState = checkForWin(childBoard)
-            currentTurn = X if child["isXsTurn"] else O
-            nextTurn = X if not child["isXsTurn"] else O
-
-            while winState == UNFINISHED:
-                boardsSearched += 1
-                childBoard = randomMove(childBoard, currentTurn)
-                currentTurn, nextTurn = nextTurn, currentTurn
-                winState = checkForWin(childBoard)
+            winState, b = playout(child)
+            boardsSearched += b
 
             if winState == NOBODY:
                 child["ties"] += 1

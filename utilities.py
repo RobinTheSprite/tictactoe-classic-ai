@@ -225,5 +225,22 @@ def getChildren(currentNode):
 
     return children
 
+def playout(child):
+    boardsSearched = 0
+    childBoard = child["board"]
+    winState = checkForWin(childBoard)
+    currentTurn = X if child["isXsTurn"] else O
+    nextTurn = X if not child["isXsTurn"] else O
+
+    while winState == UNFINISHED:
+        boardsSearched += 1
+        childBoard = randomMove(childBoard, currentTurn)
+        currentTurn, nextTurn = nextTurn, currentTurn
+        winState = checkForWin(childBoard)
+
+    return winState, boardsSearched
+
+
 def uct(w, n, c, N):
     return (w/n) + c * sqrt(log(N) / n)
+

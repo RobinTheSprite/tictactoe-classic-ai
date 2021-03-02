@@ -94,14 +94,12 @@ def findEmptySpaces(board):
 
 
 def randomMove(board, symbol):
-    valid = False
-    while not valid:
-        spaces = findEmptySpaces(board)
+    spaces = findEmptySpaces(board)
 
-        # Choose a random space
+    # Choose a random space
+    if len(spaces) != 0:
         randomSpace = sample(spaces, 1)[0]
-
-        board, valid = move(board, randomSpace[0], randomSpace[1], symbol)
+        board, _ = move(board, randomSpace[0], randomSpace[1], symbol)
 
     return board
 

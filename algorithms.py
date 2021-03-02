@@ -187,7 +187,11 @@ def monteCarlo(board, currentTurn, timeLimit):
             else:
                 currentNode = currentNode["parent"]
 
-    return  boardDifference(root["board"], root["visitedChildren"][0]["board"]), \
+    bestChild = makeEmptyNode()
+    for child in root["visitedChildren"]:
+        if bestChild["playouts"] < child["playouts"]:
+            bestChild = child
+    return  boardDifference(root["board"], bestChild["board"]), \
             "Boards Searched: {}".format(boardsSearched)
 
 

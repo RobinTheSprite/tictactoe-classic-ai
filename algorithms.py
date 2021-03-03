@@ -5,6 +5,7 @@ checkForWin, evaluate, findEmptySpaces, \
 makeEmptyNode, getChildren, uct, playout, select
 from operator import itemgetter
 from time import time
+from random import randint
 
 
 def random(board, currentTurn):

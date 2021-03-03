@@ -126,32 +126,38 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
 
 # A leaf node is one with an empty list []
 def monteCarlo(board, currentTurn, timeLimit):
+
+    # Set up the root of the game tree
     root = makeEmptyNode()
     root["board"] = board
     root["isXsTurn"] = currentTurn
     root["unvisitedChildren"] = getChildren(root)
 
+    # Set up some global statistics
     totalPlayouts = 0
-
     boardsSearched = 0
     startTime = time() # boardsSearched < 500000
     while (time() - startTime) < timeLimit:
+        # Traverse the tree to find a node that's not fully explored
         currentNode = select(root)
 
-        currentNode = select(currentNode)
-
+        # Don't do a playout if this node ends the game
         winState = checkForWin(currentNode["board"])
         if winState == UNFINISHED:
+            # Generate the child nodes if it hasn't been done yet
             if (len(currentNode["unvisitedChildren"]) == 0
             and len(currentNode["visitedChildren"]) == 0):
                 currentNode["unvisitedChildren"] = getChildren(currentNode)
 
+            # Choose a random unvisited child
             randomIndex = randint(0, len(currentNode["unvisitedChildren"]) - 1)
             child = currentNode["unvisitedChildren"][randomIndex]
 
+            # Run a simulation from the child
             winState, b = playout(child)
             boardsSearched += b
 
+            # Mark the child as visited and descend into it
             currentNode["unvisitedChildren"].pop(randomIndex)
             currentNode["visitedChildren"].append(child)
             currentNode = child
@@ -159,23 +165,28 @@ def monteCarlo(board, currentTurn, timeLimit):
         totalPlayouts += 1
 
         while True:
+            # Did we win?
             if ((winState == X and currentNode["isXsTurn"])
             or winState == O and not currentNode["isXsTurn"]):
                 currentNode["wins"] += 1
             elif winState == NOBODY:
                 currentNode["ties"] += 1
 
+            # Update playouts and UCT
             currentNode["playouts"] += 1
             currentNode["uct"] = uct(currentNode["wins"], currentNode["playouts"], 1.5, totalPlayouts)
 
+            # Sort from highest UCT to lowest
             currentNode["visitedChildren"].sort(reverse=True, key=itemgetter("uct"))
 
+            # Climb the tree
             if currentNode["parent"] == {}:
                 root = currentNode
                 break
             else:
                 currentNode = currentNode["parent"]
 
+    # Return the child with the most playouts
     bestChild = makeEmptyNode()
     for child in root["visitedChildren"]:
         if bestChild["playouts"] < child["playouts"]:

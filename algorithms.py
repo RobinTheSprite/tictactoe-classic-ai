@@ -141,10 +141,6 @@ def monteCarlo(board, currentTurn, timeLimit):
             and len(currentNode["visitedChildren"]) > 0):
             currentNode = currentNode["visitedChildren"][0]
 
-        if (len(currentNode["unvisitedChildren"]) == 0
-            and len(currentNode["visitedChildren"]) == 0):
-            currentNode["unvisitedChildren"] = getChildren(currentNode)
-
         winState = checkForWin(currentNode["board"])
         if winState == X or winState == O or winState == NOBODY:
             currentNode["playouts"] += 1
@@ -153,6 +149,10 @@ def monteCarlo(board, currentTurn, timeLimit):
             if winState == NOBODY:
                 currentNode["ties"] += 1
         else:
+            if (len(currentNode["unvisitedChildren"]) == 0
+            and len(currentNode["visitedChildren"]) == 0):
+                currentNode["unvisitedChildren"] = getChildren(currentNode)
+
             child = currentNode["unvisitedChildren"][0]
 
             winState, b = playout(child)

@@ -258,3 +258,10 @@ def playout(child):
 def uct(w, n, c, N):
     return (w/n) + c * sqrt(log(N) / n)
 
+
+def select(currentNode):
+    while (len(currentNode["unvisitedChildren"]) == 0
+    and len(currentNode["visitedChildren"]) > 0):
+        currentNode = currentNode["visitedChildren"][0]
+
+    return currentNode

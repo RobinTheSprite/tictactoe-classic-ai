@@ -169,8 +169,6 @@ def monteCarlo(board, currentTurn, timeLimit):
             if ((winState == X and currentNode["isXsTurn"])
             or winState == O and not currentNode["isXsTurn"]):
                 currentNode["wins"] += 1
-            elif winState == NOBODY:
-                currentNode["ties"] += 1
 
             # Update playouts and UCT
             currentNode["playouts"] += 1

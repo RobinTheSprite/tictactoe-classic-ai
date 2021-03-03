@@ -209,7 +209,6 @@ def makeEmptyNode():
         "board": 0,
         "playouts": 0,
         "wins": 0,
-        "ties": 0,
         "uct": 0,
         "isXsTurn": True,
         "visitedChildren": [],

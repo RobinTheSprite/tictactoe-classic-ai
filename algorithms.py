@@ -144,7 +144,6 @@ def monteCarlo(board, currentTurn, timeLimit):
         winState = checkForWin(currentNode["board"])
         if winState == X or winState == O or winState == NOBODY:
             currentNode["playouts"] += 1
-            totalPlayouts += 1
 
             if winState == NOBODY:
                 currentNode["ties"] += 1
@@ -165,9 +164,10 @@ def monteCarlo(board, currentTurn, timeLimit):
                 child["ties"] += 1
 
             child["playouts"] += 1
-            totalPlayouts += 1
             currentNode["unvisitedChildren"].pop(0)
             currentNode["visitedChildren"].append(child)
+
+        totalPlayouts += 1
 
         while True:
             lossesForCurrent = 0

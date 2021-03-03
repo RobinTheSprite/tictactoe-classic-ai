@@ -133,19 +133,14 @@ def monteCarlo(board, currentTurn, timeLimit):
     totalPlayouts = 0
 
     boardsSearched = 0
-    startTime = time()
+    startTime = time() # boardsSearched < 500000
     while (time() - startTime) < timeLimit:
         currentNode = root
 
         currentNode = select(currentNode)
 
         winState = checkForWin(currentNode["board"])
-        if winState == X or winState == O or winState == NOBODY:
-            currentNode["playouts"] += 1
-
-            if winState == NOBODY:
-                currentNode["ties"] += 1
-        else:
+        if winState == UNFINISHED:
             if (len(currentNode["unvisitedChildren"]) == 0
             and len(currentNode["visitedChildren"]) == 0):
                 currentNode["unvisitedChildren"] = getChildren(currentNode)
@@ -155,30 +150,23 @@ def monteCarlo(board, currentTurn, timeLimit):
             winState, b = playout(child)
             boardsSearched += b
 
-            if ((winState == X and child["isXsTurn"])
-            or winState == O and not child["isXsTurn"]):
-                child["wins"] += 1
-            elif winState == NOBODY:
-                child["ties"] += 1
-
-            child["playouts"] += 1
             currentNode["unvisitedChildren"].pop(0)
             currentNode["visitedChildren"].append(child)
+            currentNode = child
 
         totalPlayouts += 1
 
         while True:
-            lossesForCurrent = 0
-            tiesForCurrent = 0
-            for child in currentNode["visitedChildren"]:
-                child["uct"] = uct(child["wins"], child["playouts"], 1.5, totalPlayouts)
-                lossesForCurrent += child["wins"]
-                tiesForCurrent += child["ties"]
+            if ((winState == X and currentNode["isXsTurn"])
+            or winState == O and not currentNode["isXsTurn"]):
+                currentNode["wins"] += 1
+            elif winState == NOBODY:
+                currentNode["ties"] += 1
+
+            currentNode["playouts"] += 1
+            currentNode["uct"] = uct(currentNode["wins"], currentNode["playouts"], 1.5, totalPlayouts)
 
             currentNode["visitedChildren"].sort(reverse=True, key=itemgetter("uct"))
-            currentNode["playouts"] += 1
-            currentNode["ties"] = tiesForCurrent
-            currentNode["wins"] = currentNode["playouts"] - lossesForCurrent - tiesForCurrent
 
             if currentNode["parent"] == {}:
                 root = currentNode

@@ -1,5 +1,5 @@
 from constants import *
-from random import sample
+from random import choice
 from time import time, sleep
 from keyboard import is_pressed
 from math import sqrt, log
@@ -7,10 +7,9 @@ from math import sqrt, log
 def printBoard(board):
     mask = 0b11
     row = "|"
-    maxShift = BOARD_SIZE**2 * 2 - 2
 
     # For all the spaces on the board:
-    for shift in range(maxShift, -2, -2):
+    for shift in range(MAX_SHIFT, -2, -2):
         space = ((mask << shift) & board) >> shift
 
         # Print the appropriate symbol for each space
@@ -31,21 +30,27 @@ def boardDifference(board1, board2):
     difference = board1 ^ board2
 
     mask = 0b11
-    maxShift = BOARD_SIZE**2 * 2 - 2
     for row in range(0, BOARD_SIZE):
         for col in range(0, BOARD_SIZE):
-            shift = maxShift - 2*col - BOARD_SIZE*2*row
+            shift = MAX_SHIFT - 2*col - BOARD_SIZE*2*row
             space = (mask << shift) & difference
 
             if space != EMPTY_BIN:
                 return (col, row)
 
 
+def getUsedSpaces(board):
+    return (board & USED_SPACES_MASK) >> MAX_SHIFT + 2
+
+
+def setUsedSpaces(board, usedSpaces):
+    return board & (~USED_SPACES_MASK) | (usedSpaces << MAX_SHIFT + 2)
+
+
 def move(board, col, row, symbol):
-    maxShift = BOARD_SIZE**2 * 2 - 2
     mask = 0b11
 
-    shift = maxShift - 2*col - BOARD_SIZE*2*row
+    shift = MAX_SHIFT - 2*col - BOARD_SIZE*2*row
 
     # If that space is occupied already:
     if (board & (mask << shift)) != 0:
@@ -61,34 +66,41 @@ def move(board, col, row, symbol):
     # Place the symbol on the board
     board = board | (binarySymbol << shift)
 
+    # Increment the count of used spaces
+    usedSpaces = getUsedSpaces(board)
+    usedSpaces += 1
+    board = setUsedSpaces(board, usedSpaces)
+
     return board, True
 
 
 def checkForWin(board):
-    score = evaluate(board)
-    if score == X_WIN:
-        return X
-    elif score == O_WIN:
-        return O
-    elif score == NO_WIN:
-        return NOBODY # Tied game
+    for winState in WIN_STATES:
+        maskedBoard = board & winState
+        if maskedBoard == winState & X_MASK:
+            return X
+        elif maskedBoard == winState & O_MASK:
+            return O
+
+    if getUsedSpaces(board) == 25:
+        return NOBODY
     else:
-        return UNFINISHED # Game's not over
+        return UNFINISHED
 
 
 def findEmptySpaces(board):
     emptySpaces = []
-    maxShift = BOARD_SIZE**2 * 2 - 2
     mask = 0b11
 
-    # For each space on the board:
-    for col in range(BOARD_SIZE):
-        for row in range(BOARD_SIZE):
-            shift = maxShift - 2*col - BOARD_SIZE*2*row
+    if getUsedSpaces(board) != 25:
+        # For each space on the board:
+        for col in range(BOARD_SIZE):
+            for row in range(BOARD_SIZE):
+                shift = MAX_SHIFT - 2*col - BOARD_SIZE*2*row
 
-            # Append tuple(col, row) if the space is empty
-            if (board & (mask << shift)) == EMPTY_BIN:
-                emptySpaces.append((col, row))
+                # Append tuple(col, row) if the space is empty
+                if (board & (mask << shift)) == EMPTY_BIN:
+                    emptySpaces.append((col, row))
 
     return emptySpaces
 
@@ -96,9 +108,10 @@ def findEmptySpaces(board):
 def randomMove(board, symbol):
     spaces = findEmptySpaces(board)
 
+    lenSpaces = len(spaces)
     # Choose a random space
-    if len(spaces) != 0:
-        randomSpace = sample(spaces, 1)[0]
+    if lenSpaces != 0:
+        randomSpace = choice(spaces)
         board, _ = move(board, randomSpace[0], randomSpace[1], symbol)
 
     return board
@@ -224,6 +237,7 @@ def getChildren(currentNode):
         children.append(child)
 
     return children
+
 
 def playout(child):
     boardsSearched = 0

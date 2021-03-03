@@ -124,7 +124,7 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
 
     return optimalScore, optimalMove, searches
 
-# A leaf node is one with an empty list []
+
 def monteCarlo(board, currentTurn, timeLimit):
 
     # Set up the root of the game tree

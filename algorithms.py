@@ -136,7 +136,7 @@ def monteCarlo(board, currentTurn, timeLimit):
     boardsSearched = 0
     startTime = time() # boardsSearched < 500000
     while (time() - startTime) < timeLimit:
-        currentNode = root
+        currentNode = select(root)
 
         currentNode = select(currentNode)
 

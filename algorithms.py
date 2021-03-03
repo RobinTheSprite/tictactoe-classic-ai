@@ -145,12 +145,13 @@ def monteCarlo(board, currentTurn, timeLimit):
             and len(currentNode["visitedChildren"]) == 0):
                 currentNode["unvisitedChildren"] = getChildren(currentNode)
 
-            child = currentNode["unvisitedChildren"][0]
+            randomIndex = randint(0, len(currentNode["unvisitedChildren"]) - 1)
+            child = currentNode["unvisitedChildren"][randomIndex]
 
             winState, b = playout(child)
             boardsSearched += b
 
-            currentNode["unvisitedChildren"].pop(0)
+            currentNode["unvisitedChildren"].pop(randomIndex)
             currentNode["visitedChildren"].append(child)
             currentNode = child
 

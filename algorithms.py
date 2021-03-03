@@ -158,7 +158,10 @@ def monteCarlo(board, currentTurn, timeLimit):
             winState, b = playout(child)
             boardsSearched += b
 
-            if winState == NOBODY:
+            if ((winState == X and child["isXsTurn"])
+            or winState == O and not child["isXsTurn"]):
+                child["wins"] += 1
+            elif winState == NOBODY:
                 child["ties"] += 1
 
             child["playouts"] += 1

@@ -170,19 +170,17 @@ def monteCarlo(board, currentTurn, timeLimit):
             currentNode["visitedChildren"].append(child)
 
         while True:
-            playoutsForCurrent = 0
             lossesForCurrent = 0
             tiesForCurrent = 0
             for child in currentNode["visitedChildren"]:
                 child["uct"] = uct(child["wins"], child["playouts"], 1.5, totalPlayouts)
-                playoutsForCurrent += child["playouts"]
                 lossesForCurrent += child["wins"]
                 tiesForCurrent += child["ties"]
 
             currentNode["visitedChildren"].sort(reverse=True, key=itemgetter("uct"))
-            currentNode["playouts"] = max(playoutsForCurrent, currentNode["playouts"])
+            currentNode["playouts"] += 1
             currentNode["ties"] = tiesForCurrent
-            currentNode["wins"] = playoutsForCurrent - lossesForCurrent - tiesForCurrent
+            currentNode["wins"] = currentNode["playouts"] - lossesForCurrent - tiesForCurrent
 
             if currentNode["parent"] == {}:
                 root = currentNode

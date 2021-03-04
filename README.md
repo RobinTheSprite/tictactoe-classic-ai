@@ -3,23 +3,26 @@
 
 ![Animation of alpha-beta search](tictactoe.GIF)
 
-## Gamemodes
+## Project structure
+**games.py** contains several options for the algorithm to use for the AI:
+1. Random moves
+2. Minimax search
+3. Alpha-Beta pruning
+4. Monte Carlo Tree Search
 
-The file games.py contains several gamemodes:
-1. Player versus a bot making random moves
-2. Two bots making random moves
-3. Player versus a bot using the minimax algorithm
-4. Two bots using the minimax algorithm
-5. Player versus a bot using alpha-beta pruning
-6. Two bots using alpha-beta pruning
+To use one, call the computerVsComputer function at the bottom of games.py with the appropriate parameters. An example of MCTS and Alpha-Beta is the default.
 
-To use one, call the corresponding function at the bottom of games.py
+**algorithms.py** contains the implementation of each algorithm.
+
+**utilities.py** contains any functions necessary to play the game, such as making a move, printing the board, or selecting a node (for MCTS).
+
+**constants.py** contains a number of constant global values used throughout the project, like the size of the board and the value of an "X" or an "O."
 
 ## Rules
 
 The board is five rows by five columns.
 
-Players take turns placing their symbol on the board. 
+Players take turns placing their symbol on the board.
 
 X goes first.
 

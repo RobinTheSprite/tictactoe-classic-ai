@@ -137,7 +137,7 @@ def monteCarlo(board, currentTurn, timeLimit):
     totalPlayouts = 0
     boardsSearched = 0
     startTime = time()
-    while (time() - startTime) < timeLimit: # boardsSearched < 500000
+    while (time() - startTime) < timeLimit: # totalPlayouts < 2000000
         # Traverse the tree to find a node that's not fully explored
         currentNode = select(root)
 

@@ -21,7 +21,7 @@ def printBoard(board):
             row += O + "|"
 
         # Print the side of the board at the beginning of a row
-        if shift % (BOARD_SIZE*2) == 0:
+        if shift % (BOARD_LENGTH*2) == 0:
             print(row)
             row = "|"
 
@@ -30,9 +30,9 @@ def boardDifference(board1, board2):
     difference = board1 ^ board2
 
     mask = 0b11
-    for row in range(0, BOARD_SIZE):
-        for col in range(0, BOARD_SIZE):
-            shift = MAX_SHIFT - 2*col - BOARD_SIZE*2*row
+    for row in range(0, BOARD_LENGTH):
+        for col in range(0, BOARD_LENGTH):
+            shift = MAX_SHIFT - 2*col - BOARD_LENGTH*2*row
             space = (mask << shift) & difference
 
             if space != EMPTY_BIN:
@@ -50,7 +50,7 @@ def setUsedSpaces(board, usedSpaces):
 def move(board, col, row, symbol):
     mask = 0b11
 
-    shift = MAX_SHIFT - 2*col - BOARD_SIZE*2*row
+    shift = MAX_SHIFT - 2*col - BOARD_LENGTH*2*row
 
     # If that space is occupied already:
     if (board & (mask << shift)) != 0:
@@ -82,7 +82,7 @@ def checkForWin(board):
         elif maskedBoard == winState & O_MASK:
             return O
 
-    if getUsedSpaces(board) == 25:
+    if getUsedSpaces(board) == NUM_OF_SPACES:
         return NOBODY
     else:
         return UNFINISHED
@@ -92,11 +92,11 @@ def findEmptySpaces(board):
     emptySpaces = []
     mask = 0b11
 
-    if getUsedSpaces(board) != 25:
+    if getUsedSpaces(board) != NUM_OF_SPACES:
         # For each space on the board:
-        for col in range(BOARD_SIZE):
-            for row in range(BOARD_SIZE):
-                shift = MAX_SHIFT - 2*col - BOARD_SIZE*2*row
+        for col in range(BOARD_LENGTH):
+            for row in range(BOARD_LENGTH):
+                shift = MAX_SHIFT - 2*col - BOARD_LENGTH*2*row
 
                 # Append tuple(col, row) if the space is empty
                 if (board & (mask << shift)) == EMPTY_BIN:
@@ -254,7 +254,7 @@ def playout(child):
 
 
 def uct(w, n, c, N):
-    return (w/n) + c * sqrt(log(N) / n)
+    return w / n + c * sqrt(log(N) / n)
 
 
 def select(currentNode):

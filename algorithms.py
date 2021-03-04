@@ -187,7 +187,7 @@ def monteCarlo(board, currentTurn, timeLimit):
     # Return the child with the most playouts
     bestChild = makeEmptyNode()
     for child in root["visitedChildren"]:
-        if bestChild["playouts"] < child["playouts"]:
+        if child["playouts"] > bestChild["playouts"]:
             bestChild = child
     return  boardDifference(root["board"], bestChild["board"]), \
             "Boards Searched: {}".format(boardsSearched)

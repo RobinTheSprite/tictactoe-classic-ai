@@ -133,11 +133,18 @@ def monteCarlo(board, currentTurn, timeLimit):
     root["isXsTurn"] = currentTurn
     root["unvisitedChildren"] = getChildren(root)
 
+    # Prime the tree with a single playout
+    winState, b = playout(root)
+    if ((winState == X and root["isXsTurn"])
+        or winState == O and not root["isXsTurn"]):
+                root["wins"] += 1
+    root["playouts"] += 1
+
     # Set up some global statistics
     totalPlayouts = 0
     boardsSearched = 0
     startTime = time()
-    while (time() - startTime) < timeLimit: # totalPlayouts < 2000000
+    while totalPlayouts < 1000000: # (time() - startTime) < timeLimit
         # Traverse the tree to find a node that's not fully explored
         currentNode = select(root)
 
@@ -170,12 +177,8 @@ def monteCarlo(board, currentTurn, timeLimit):
             or winState == O and not currentNode["isXsTurn"]):
                 currentNode["wins"] += 1
 
-            # Update playouts and UCT
+            # Update playouts
             currentNode["playouts"] += 1
-            currentNode["uct"] = uct(currentNode["wins"], currentNode["playouts"], 1.5, totalPlayouts)
-
-            # Sort from highest UCT to lowest
-            currentNode["visitedChildren"].sort(reverse=True, key=itemgetter("uct"))
 
             # Climb the tree
             if currentNode["parent"] == {}:
@@ -187,6 +190,7 @@ def monteCarlo(board, currentTurn, timeLimit):
     # Return the child with the most playouts
     bestChild = makeEmptyNode()
     for child in root["visitedChildren"]:
+        print("Move: {} Playouts: {}".format(boardDifference(root["board"], child["board"]), child["playouts"]))
         if child["playouts"] > bestChild["playouts"]:
             bestChild = child
     return  boardDifference(root["board"], bestChild["board"]), \

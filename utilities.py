@@ -209,7 +209,6 @@ def makeEmptyNode():
         "board": 0,
         "playouts": 0,
         "wins": 0,
-        "uct": 0,
         "isXsTurn": True,
         "visitedChildren": [],
         "unvisitedChildren": [],
@@ -261,6 +260,15 @@ def uct(w, n, c, N):
 def select(currentNode):
     while (len(currentNode["unvisitedChildren"]) == 0
     and len(currentNode["visitedChildren"]) > 0):
-        currentNode = currentNode["visitedChildren"][0]
+        bestUCT = -1
+        bestChild = currentNode["visitedChildren"][0]
+        for child in currentNode["visitedChildren"]:
+            childUCT = uct(child["wins"], child["playouts"], 1.5, currentNode["playouts"])
+            if childUCT > bestUCT:
+                bestUCT = childUCT
+                bestChild = child
+
+        currentNode = bestChild
+
 
     return currentNode

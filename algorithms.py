@@ -127,6 +127,10 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
 
 def monteCarlo(board, currentTurn, timeLimit):
 
+    # Set up some global statistics
+    totalPlayouts = 0
+    boardsSearched = 0
+
     # Set up the root of the game tree
     root = makeEmptyNode()
     root["board"] = board
@@ -139,10 +143,8 @@ def monteCarlo(board, currentTurn, timeLimit):
         or winState == O and not root["isXsTurn"]):
                 root["wins"] += 1
     root["playouts"] += 1
+    boardsSearched += b
 
-    # Set up some global statistics
-    totalPlayouts = 0
-    boardsSearched = 0
     startTime = time()
     while totalPlayouts < 1000000: # (time() - startTime) < timeLimit
         # Traverse the tree to find a node that's not fully explored
@@ -195,5 +197,3 @@ def monteCarlo(board, currentTurn, timeLimit):
             bestChild = child
     return  boardDifference(root["board"], bestChild["board"]), \
             "Boards Searched: {}".format(boardsSearched)
-
-

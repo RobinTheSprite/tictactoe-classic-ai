@@ -153,14 +153,14 @@ def monteCarlo(board, currentTurn, timeLimit):
         # Don't do a playout if this node ends the game
         winState = checkForWin(currentNode["board"])
         if winState == UNFINISHED:
-            # Generate the child nodes if it hasn't been done yet
-            if (len(currentNode["unvisitedChildren"]) == 0
-            and len(currentNode["visitedChildren"]) == 0):
-                currentNode["unvisitedChildren"] = getChildren(currentNode)
-
             # Choose a random unvisited child
             randomIndex = randint(0, len(currentNode["unvisitedChildren"]) - 1)
             child = currentNode["unvisitedChildren"][randomIndex]
+
+            # Generate the child nodes if it hasn't been done yet
+            if (len(child["unvisitedChildren"]) == 0
+            and len(child["visitedChildren"]) == 0):
+                child["unvisitedChildren"] = getChildren(currentNode)
 
             # Run a simulation from the child
             winState, b = playout(child)

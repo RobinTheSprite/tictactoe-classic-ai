@@ -258,10 +258,9 @@ def uct(w, n, c, N):
 
 
 def select(currentNode):
-    while (len(currentNode["unvisitedChildren"]) == 0
-    and len(currentNode["visitedChildren"]) > 0):
-        bestUCT = -1
+    while len(currentNode["unvisitedChildren"]) == 0:
         bestChild = currentNode["visitedChildren"][0]
+        bestUCT = -1
         for child in currentNode["visitedChildren"]:
             childUCT = uct(child["wins"], child["playouts"], 1.5, currentNode["playouts"])
             if childUCT > bestUCT:
@@ -269,6 +268,5 @@ def select(currentNode):
                 bestChild = child
 
         currentNode = bestChild
-
 
     return currentNode

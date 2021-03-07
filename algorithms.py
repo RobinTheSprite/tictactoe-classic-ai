@@ -160,7 +160,7 @@ def monteCarlo(board, currentTurn, timeLimit):
             # Generate the child nodes if it hasn't been done yet
             if (len(child["unvisitedChildren"]) == 0
             and len(child["visitedChildren"]) == 0):
-                child["unvisitedChildren"] = getChildren(currentNode)
+                child["unvisitedChildren"] = getChildren(child)
 
             # Run a simulation from the child
             winState, b = playout(child)

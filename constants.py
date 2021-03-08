@@ -55,7 +55,7 @@ X_WIN = len(WIN_STATES)
 O_WIN = -len(WIN_STATES)
 NO_WIN = 404 #Winner not found lol
 
-INF = X_WIN + 1
+INF = 1000
 
 class GameType(Enum):
     RANDOM = auto()

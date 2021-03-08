@@ -120,7 +120,6 @@ def randomMove(board, symbol):
 def evaluate(board):
     mask = 0b11
     total = 0
-    winFound = False
 
     for winState in WIN_STATES:
         # Mask out everything except the symbols in the win state
@@ -139,26 +138,19 @@ def evaluate(board):
 
         # Figure out if X or O could use this win state to win.
         # If so, count it in the grand total
-        if numberOfXs == 0 and numberOfOs == 0:
-            winFound = True
-        elif numberOfXs == 0 and numberOfOs > 0:
+        if numberOfXs == 0 and numberOfOs > 0:
             if numberOfOs == 4:
                 return O_WIN
 
-            winFound = True
             total -= 1
         elif numberOfOs == 0 and numberOfXs > 0:
             if numberOfXs == 4:
                 return X_WIN
 
-            winFound = True
             total += 1
 
-    # Tells the difference between a sum of 0 and a tie
-    if winFound:
         return total
-    else:
-        return NO_WIN
+
 
 
 def writeGame(boards):

@@ -19,42 +19,27 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
 
     optimalMove = ()
     searches = 0
-    if isXsTurn:
-        optimalScore = -INF
-        for space in emptySpaces:
-            nextState, _ = move(board, space[0], space[1], X)
 
-            nextScore, _, subtreeSearches = minimax(
-                nextState,
-                currentDepth + 1,
-                maxDepth,
-                findEmptySpaces(nextState),
-                False
-            )
+    optimalScore = -INF if isXsTurn else INF
+    for space in emptySpaces:
+        nextState, _ = move(board, space[0], space[1], X if isXsTurn else O)
 
-            searches += 1 + subtreeSearches
+        nextScore, _, subtreeSearches = minimax(
+            nextState,
+            currentDepth + 1,
+            maxDepth,
+            findEmptySpaces(nextState),
+            not isXsTurn
+        )
 
-            if optimalScore < nextScore:
-                optimalScore = nextScore
-                optimalMove = space
-    else:
-        optimalScore = INF
-        for space in emptySpaces:
-            nextState, _ = move(board, space[0], space[1], O)
+        searches += 1 + subtreeSearches
 
-            nextScore, _, subtreeSearches = minimax(
-                nextState,
-                currentDepth + 1,
-                maxDepth,
-                findEmptySpaces(nextState),
-                True
-            )
-
-            searches += 1 + subtreeSearches
-
-            if optimalScore > nextScore:
-                optimalScore = nextScore
-                optimalMove = space
+        if isXsTurn and optimalScore < nextScore:
+            optimalScore = nextScore
+            optimalMove = space
+        elif not isXsTurn and optimalScore > nextScore:
+            optimalScore = nextScore
+            optimalMove = space
 
     """ Debug string:
         print(
@@ -73,54 +58,33 @@ def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta)
 
     optimalMove = ()
     searches = 0
-    if isXsTurn:
-        optimalScore = -INF
-        for space in emptySpaces:
-            nextState, _ = move(board, space[0], space[1], X)
+    optimalScore = -INF if isXsTurn else INF
+    for space in emptySpaces:
+        nextState, _ = move(board, space[0], space[1], X if isXsTurn else O)
 
-            nextScore, _, subtreeSearches = alphaBeta(
-                nextState,
-                currentDepth + 1,
-                maxDepth,
-                findEmptySpaces(nextState),
-                False,
-                alpha,
-                beta
-            )
+        nextScore, _, subtreeSearches = alphaBeta(
+            nextState,
+            currentDepth + 1,
+            maxDepth,
+            findEmptySpaces(nextState),
+            not isXsTurn,
+            alpha,
+            beta
+        )
 
-            searches += 1 + subtreeSearches
+        searches += 1 + subtreeSearches
 
-            if optimalScore < nextScore:
-                optimalScore = nextScore
-                optimalMove = space
+        if isXsTurn and optimalScore < nextScore:
+            optimalScore = nextScore
+            optimalMove = space
+            alpha = max(alpha, optimalScore)
+        elif not isXsTurn and optimalScore > nextScore:
+            optimalScore = nextScore
+            optimalMove = space
+            beta = min(beta, optimalScore)
 
-                alpha = max(alpha, optimalScore)
-            if beta <= alpha:
-                break
-    else:
-        optimalScore = INF
-        for space in emptySpaces:
-            nextState, _ = move(board, space[0], space[1], O)
-
-            nextScore, _, subtreeSearches = alphaBeta(
-                nextState,
-                currentDepth + 1,
-                maxDepth,
-                findEmptySpaces(nextState),
-                True,
-                alpha,
-                beta
-            )
-
-            searches += 1 + subtreeSearches
-
-            if optimalScore > nextScore:
-                optimalScore = nextScore
-                optimalMove = space
-
-                beta = min(beta, optimalScore)
-            if beta <= alpha:
-                break
+        if beta <= alpha:
+            break
 
     return optimalScore, optimalMove, searches
 

@@ -14,7 +14,7 @@ def random(board, currentTurn):
 
 def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
     evaluation = evaluate(board)
-    if currentDepth == maxDepth or abs(evaluation) == abs(X_WIN):
+    if currentDepth == maxDepth or not len(emptySpaces) or abs(evaluation) == abs(X_WIN):
         return evaluation, (), 0
 
     optimalMove = ()
@@ -53,7 +53,7 @@ def minimax(board, currentDepth, maxDepth, emptySpaces, isXsTurn):
 
 def alphaBeta(board, currentDepth, maxDepth, emptySpaces, isXsTurn, alpha, beta):
     evaluation = evaluate(board)
-    if currentDepth == maxDepth or abs(evaluation) == abs(X_WIN):
+    if currentDepth == maxDepth or not len(emptySpaces) or abs(evaluation) == abs(X_WIN):
         return evaluation, (), 0
 
     optimalMove = ()

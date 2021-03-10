@@ -149,7 +149,7 @@ def evaluate(board):
 
             total += 1
 
-        return total
+    return total
 
 
 

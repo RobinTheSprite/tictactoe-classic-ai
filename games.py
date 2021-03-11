@@ -29,7 +29,7 @@ def playerVersusRandom(save):
             if len(col) == 0 or len(row) == 0:
                 break
 
-            board, valid = move(board, int(col) - 1, int(row) - 1, X)
+            board, valid = move(board, int(col), int(row), X)
             if not valid:
                 print("That space is taken")
 
@@ -74,7 +74,7 @@ def playerVersusMinimax(save):
             if len(col) == 0 or len(row) == 0:
                 break
 
-            board, valid = move(board, int(col) - 1, int(row) - 1, X)
+            board, valid = move(board, int(col), int(row), X)
             if not valid:
                 print("That space is taken")
 
